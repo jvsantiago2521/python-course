@@ -1,10 +1,13 @@
 import os
-from log import Log
+from eletronico import Smartphone
 os.system("cls")
 
+galaxy_s = Smartphone("Galaxy S")
+iphone = Smartphone('Iphone')
 
-print("oi")
-
-
+galaxy_s.ligar()
+galaxy_s.desligar()
+iphone.ligar()
+iphone.desligar()
 
 print()

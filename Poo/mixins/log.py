@@ -1,4 +1,6 @@
 import os
+from pathlib import Path
+LOG_FILE = Path(__file__).parent / "log.txt"
 os.system("cls")
 
 #Abstracao
@@ -6,21 +8,31 @@ os.system("cls")
 class Log:
     def _log(self):
         raise NotImplementedError("Implemente o metodo log!")
-    
+
     def log_error(self, msg):
         return self._log(f"Error: {msg}")
 
-    def log_error(self, msg):
+    def log_sucess(self, msg):
         return self._log(f"Sucess: {msg}")
 
 class LogFileMixin(Log):
     def _log(self, msg):
-        print(msg)
+        msg_formatada = f"{msg} ({self.__class__.__name__})"
+        print(f"Salvando no log: {msg_formatada}")
+        with open(LOG_FILE, "a") as arquivo:
+            arquivo.write(msg_formatada)
+            arquivo.write("\n")
 
 class LogPrintMixin(Log):
     def _log(self, msg):
-        print(f"{msg} {self.__class__.__name__}")
+        print(f"{msg} ({self.__class__.__name__})")
     
 if __name__ == "__main__":
-    l = LogPrintMixin()
-    l.log_error("ERRO")
+    lp = LogPrintMixin()
+    lp.log_error("ERRO")
+    lp.log_sucess("SUCESS")
+    lf = LogFileMixin()
+    lf.log_error("ERRO")
+    lf.log_sucess("SUCESS")
+
+    print(LOG_FILE)
