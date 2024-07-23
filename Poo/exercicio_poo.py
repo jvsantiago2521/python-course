@@ -33,77 +33,75 @@ Banco autentica por um método.
 """
 from abc import ABC, abstractmethod
 
+class Banco():
+    def __init__(self):
+        self._lista_clientes = []
+        self._lista_contas = []
+        self._lista_agencias = ["DF", "RJ", "SC"]
+
+    def autenticar(self, entrada):
+        if entrada.__class__.__name__ == "Cliente":
+            self._lista_clientes.append(entrada)
+            print(f"Cliente autenticado!")
+        elif entrada.__class__.__name__ == "ContaPoupanca" or entrada.__class__.__name__ == "ContaCorrente":
+            self._lista_contas.append(entrada)
+            print(f"Conta autenticada!")
+        else:
+            print("Entrada invalida!")
+       
+    def verificar_autentificacao(self, entrada):
+        if entrada in self._lista_clientes or entrada in self._lista_contas:
+            print(f"Ja esta autentificado no sistema!")
+            return True
+        else:
+            print("Autentificacao necessaria!")
+            return False
+
 class Pessoa(ABC):
-    def __init__(self, nome, cpf):
+    def __init__(self, nome, idade):
         self._nome = nome
-        self._cpf = cpf
+        self._idade = idade
 
-    def _mostrar_dados(self):
-        print(self._nome, self._cpf)
-
-    @abstractmethod
-    def _cadastro_cliente(self):
-        self.cadastro = False
-        return self.cadastro
+    @property
+    def nome(self):
+        return self._nome
+    
+    @property
+    def idade(self):
+        return self._idade
 
 class Cliente(Pessoa):
+    def mostrar_info(self, entrada):
+        print(entrada)
 
-    def _mostrar_dados(self):
-        print(self._nome, self._cpf, self.cadastro, self.tipo_conta)
 
-    def _cadastro_cliente(self, nome_conta):
-        self.tipo_conta = nome_conta
-        self.cadastro = True
-        
 class Conta(ABC):
-    def __init__(self):
-        self._limite = 500
-        self._limite_extra = 200
+    def __init__(self, agencia, num_conta, saldo):
+        self._agencia = agencia
+        self._num_conta = num_conta
+        self._saldo = saldo
 
-    @abstractmethod
-    def _sacar(self, valor):...
+    def _sacar(self):...
 
-    def mostrar_limite(self):
-        print(self._limite)
+    def depositar(self):
+        ...
 
 class ContaCorrente(Conta):
+    def _sacar(self):...
 
-    def tipo_conta(self):
-        self.tipo_conta = "Conta Corrente"
-        return self.tipo_conta
-
-    def lim_extra(self):
-        self._limite += self._limite_extra
-
-    def mostrar_limite(self):
-        print(f"Seu limite atual eh {self._limite} (Limite adicional de {self._limite_extra} incluido).")
-
-    def _sacar(self, valor):
-        self._limite -= valor
-        print(f"Voce sacou {valor} reais")
-
-class ContaPoupanca(Conta):
-
-    def tipo_conta(self):
-        self.tipo_conta = "Conta Poupanca"
-        return self.tipo_conta
+    def _saldo_com_extra(self):
+        self._saldo += 300
+        return self._saldo
     
-    def mostrar_limite(self):
-        print(f"Seu limite atual eh {self._limite}.")
-
-    def _sacar(self, valor):
-        self._limite -= valor
-        print(f"Voce sacou {valor} reais")
+class ContaPoupanca(Conta):
+    def _sacar(self):...
 
 
-conta_corrente = ContaCorrente()
-cliente1 = Cliente("Joao", 123456)
-cliente1._cadastro_cliente(conta_corrente.tipo_conta())
-print(f"O cliente {cliente1._nome}, CPF:{cliente1._cpf} possui a conta: {cliente1.tipo_conta}")
+santander = Banco()
+cliente_joao = Cliente("Joao", 20)
+conta_poupanca = ContaPoupanca("DF", 123, 239.80)
 
-conta_poupanca = ContaPoupanca()
-cliente2 = Cliente("Maria", 3626523172)
-cliente2._cadastro_cliente(conta_poupanca.tipo_conta())
-print(f"O cliente {cliente2._nome}, CPF:{cliente2._cpf} possui a conta: {cliente2.tipo_conta}")
+santander.autenticar(cliente_joao)
+santander.autenticar(conta_poupanca)
 
-
+cliente_joao.mostrar_info(conta_poupanca)
