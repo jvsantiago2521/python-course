@@ -10,37 +10,30 @@
 
 from datetime import datetime, timedelta
 
-emprestimo = 1000000
+emprestimo = 1_000_000
 prazo_final = timedelta(days=1826)
 data_inicio = datetime(2020, 12, 20)
 data_final = data_inicio + prazo_final
-
-def mostra_vencimentos_e_valores():
-    num_parcelas = 0
-    aux = 0
-
-    print("Segue as datas de vencimento e os valores das parcelas:")
-
-    while 1:
-
-        aux += 1
-        data_vencimento = data_inicio + timedelta(days=aux)
-
-        if data_vencimento.day == 20:
-            num_parcelas += 1
-            print(f"[{data_vencimento}]")
-
-        if aux > 1826:
-            print[num_parcelas]
-            break
-        #data_vencimento = data_inicio + timedelta(days=aux)
-        #if data_vencimento == data_final:
-        #    break
-
+lista_datas_vencimento = []
+num_parcelas = 0
+dias_corridos = timedelta(days=0)
 
 print(f"DATA DO EMPRESTIMO: {data_inicio.strftime("%d/%m/%Y")}")
 print()
 print(f"DATA DO FINAL DO EMPRESTIMO: {data_final.strftime("%d/%m/%Y")}")
 print()
-mostra_vencimentos_e_valores()
+
+while dias_corridos < prazo_final:
+    dias_corridos += timedelta(days=1)
+    dia_atual = data_inicio + dias_corridos
+
+    if dia_atual.day == 20:
+        num_parcelas += 1
+        lista_datas_vencimento.append(f"[{dia_atual}]")
+
+for data in lista_datas_vencimento:
+    print(f"{data} -> R$ {emprestimo/num_parcelas}")
+
+print()
+print(f"Numero de parcelas = {num_parcelas}")
 
