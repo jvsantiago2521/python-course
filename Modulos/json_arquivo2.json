@@ -1,0 +1,13 @@
+{
+  "name": "Joao Victor",
+  "last_name": "Santiago Goncalves",
+  "is_man": true,
+  "height": 1.67,
+  "year_of_birth": 2004,
+  "characteristics": [
+    "Lindo",
+    "Cheiroso",
+    "Forte"
+  ],
+  "defect": null
+}
