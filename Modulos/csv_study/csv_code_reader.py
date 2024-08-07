@@ -3,6 +3,8 @@ from pathlib import Path
 
 CAMINHO_CSV = Path(__file__).parent / "csv_file.csv"
 
+#LER ARQUIVOS CSV
+
 with open(CAMINHO_CSV, 'r') as arquivo:
     leitor = csv.reader(arquivo)
     for linha in leitor:
@@ -14,3 +16,5 @@ with open(CAMINHO_CSV, 'r') as arquivo:
         print(linha["Nome"])
         print(linha["Sobrenome"])
         print(linha["Idade"])
+        
+
